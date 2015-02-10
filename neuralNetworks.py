@@ -128,13 +128,14 @@ ffNetwork.sortModules()
 
 print('_______testing without training________')
 
-testIndex = randomIndex
+testIndex = randint(0, X.shape[0])
 testInput = X[testIndex, :]
 
 prediction = ffNetwork.activate(testInput)
 p = argmax(prediction, axis=0)
 
 #plotData(X[:, 0:sizeOfExample-1], Y, randomIndex)
+print("true output is" , Y[testIndex][0])
 print("predicted output is" , p)
 
 # ============= building the backpropogation network ================
@@ -145,20 +146,25 @@ trueTrain = trainData['target'].argmax(axis=1)
 trueTest = testData['target'].argmax(axis=1)
 
 EPOCHS = 35
-backPropTrainer = BackpropTrainer(ffNetwork, dataset=trainData, verbose = True)
+backPropTrainer = BackpropTrainer(ffNetwork, dataset=trainData, verbose = False)
+
 for i in range(EPOCHS):
     backPropTrainer.trainEpochs(1)
 
-# calculatig the error percentage
-outputTrain = ffNetwork.activateOnDataset(trainData)
-outputTrain = outputTrain.argmax(axis=1)
-trainResult = percentError(outputTrain, trueTrain)
+    # calculatig the error percentage
+    outputTrain = ffNetwork.activateOnDataset(trainData)
+    outputTrain = outputTrain.argmax(axis=1)
+    trainResult = percentError(outputTrain, trueTrain)
 
-outputTest = ffNetwork.activateOnDataset(testData)
-outputTest = outputTest.argmax(axis=1)
-testResult = percentError(outputTest, trueTest)
+    outputTest = ffNetwork.activateOnDataset(testData)
+    outputTest = outputTest.argmax(axis=1)
+    testResult = percentError(outputTest, trueTest)
 
-print('training set accuracy:', 100 - trainResult, 'test set accuracy:', 100 - testResult)
+    print('training set accuracy:', 100 - trainResult, 'test set accuracy:', 100 - testResult)
 
+prediction = ffNetwork.activate(testInput)
+p = argmax(prediction, axis=0)
 
+# plotData(X[:, 0:sizeOfExample-1], Y, randomIndex)
+print("predicted output after training is" , p)
 

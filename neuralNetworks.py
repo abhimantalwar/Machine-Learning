@@ -145,7 +145,7 @@ print('_______testing after training_______')
 trueTrain = trainData['target'].argmax(axis=1)
 trueTest = testData['target'].argmax(axis=1)
 
-EPOCHS = 35
+EPOCHS = 5
 backPropTrainer = BackpropTrainer(ffNetwork, dataset=trainData, verbose = False)
 
 for i in range(EPOCHS):
